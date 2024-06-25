@@ -19,7 +19,9 @@ To accomplish this lab configuration you need to install or have [ovs](https://w
 * Give permissions `sudo chmod a+rwx ovs-docker`
 
 ## Install cRPD
-Navigate to the Juniper Networks Support page for Junos cRPD: https://support.juniper.net/support/downloads/?p=crpd and click the latest version.  Copy the `.tgz` file to the docker host.  Next, install the cRPD image to docker `docker load -i junos-routing-crpd-docker-$version.tgz` Now run `docker images` to verify the cRPD image was installed - be sure to note the **TAG id** as you will need this when running the container.
+Navigate to the Juniper Networks Support page for Junos cRPD: https://support.juniper.net/support/downloads/?p=crpd and click the latest version.  Copy the `.tgz` file to the docker host.  
+
+Next, install the cRPD image to docker `docker load -i junos-routing-crpd-docker-$version.tgz` Now run `docker images` to verify the cRPD image was installed - be sure to note the **TAG id** as you will need this when running the container.
 
 ![image](https://github.com/happytechnology/junos-crpd-lab/blob/main/dockerimage.PNG)
 
