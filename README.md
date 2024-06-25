@@ -7,7 +7,7 @@ Juniper cRPD Lab Setup Guide
 * Copy of cRPD image from Juniper Networks
 * 2 vCPU & 4GB RAM & 10GB storage per cRPD instance running
 
-This guide was build from Juniper documentation found [here](https://www.juniper.net/documentation/us/en/quick-start/software/crpd/crpd-quick-start/topics/concept/step-1-crpd.html).
+This guide was built from Juniper documentation found [here](https://www.juniper.net/documentation/us/en/quick-start/software/crpd/crpd-quick-start/topics/concept/step-1-crpd.html).
 
 The full documentation for cRPD can be found [here](https://www.juniper.net/documentation/product/us/en/crpd/)
 
@@ -19,4 +19,4 @@ To accomplish this lab configuration you need to install or have [ovs](https://w
 * Give permissions `sudo chmod a+rwx ovs-docker`
 
 ## Install cRPD
-Navigate to the Juniper Networks Support page for Junos cRPD: https://support.juniper.net/support/downloads/?p=crpd and click the latest version.
+Navigate to the Juniper Networks Support page for Junos cRPD: https://support.juniper.net/support/downloads/?p=crpd and click the latest version.  
