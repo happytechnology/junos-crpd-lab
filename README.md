@@ -21,6 +21,8 @@ To accomplish this lab configuration you need to install or have [ovs](https://w
 ## Install cRPD
 Navigate to the Juniper Networks Support page for Junos cRPD: https://support.juniper.net/support/downloads/?p=crpd and click the latest version.  Copy the `.tgz` file to the docker host.  Next, install the cRPD image to docker `docker load -i junos-routing-crpd-docker-21.2R1.10.tgz` Now run `docker images` to verify the cRPD image was installed - be sure to note the **TAG id** as you will need this when running the container.
 
+![image](https://github.com/happytechnology/junos-crpd-lab/blob/main/dockerimage.PNG)
+
 Each cRPD container requres two volumes: the config and varlog.  Build these volumes before you can run the container, the volume names will referenced with the `run` command.
 
 `docker volume create crpd01-config` 
@@ -34,11 +36,26 @@ Now you can launch the cRPD instance.  The `-v` volumes need to match the ones y
 `docker ps` will now output the crpd-01 contaier you just built
 
 ## Configure OVS Bridge
+![image](https://github.com/happytechnology/junos-crpd-lab/blob/main/cRPD%20Lab.png)
 
-sudo ovs-vsctl add-br junos-lab-bridge
-sudo ovs-docker add-port junos-lab-bridge eth0 crpd-r1
-sudo ovs-docker add-port junos-lab-bridge eth1 crpd-r1
-sudo ovs-docker add-port junos-lab-bridge eth2 crpd-r1
+The limitation of the number of containers and links is entirely limited by the amount of resources you have available on the docker host.  In this example we will build out four cRPD instances each with three links connected to the ovs-bridge. 
+
+First you need to define the bridge, in our example this bridge is called `junos-lab-bridge`
+
+`sudo ovs-vsctl add-br junos-lab-bridge`
+
+Next you need to build the interfaces on the bridge and assign them to the container.  The format is `add-port` $bridgename $interfacename $containername
+
+`sudo ovs-docker add-port junos-lab-bridge eth0 crpd-r1`
+
+`sudo ovs-docker add-port junos-lab-bridge eth1 crpd-r1`
+
+`sudo ovs-docker add-port junos-lab-bridge eth2 crpd-r1`
+
+![image](https://github.com/happytechnology/junos-crpd-lab/blob/main/cRPD%20Lab%20topo.png)
+
+Lastly, we need to assign an IP to each address of the cRPD subsystem
+
 docker exec -d crpd-r1 ifconfig eth0 172.0.0.1/30
 docker exec -d crpd-r1 ifconfig eth1 172.0.0.5/30
 docker exec -d crpd-r1 ifconfig eth2 172.0.0.22/30
