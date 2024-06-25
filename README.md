@@ -11,7 +11,7 @@ This guide was built from Juniper documentation found [here](https://www.juniper
 
 The full documentation for cRPD can be found [here](https://www.juniper.net/documentation/product/us/en/crpd/)
 
-## Open vSwitch
+## Install vSwitch
 To accomplish this lab configuration you need to install or have [ovs](https://www.openvswitch.org/) working with your docker configuration.  OVS allows us to build the network bridge that connects the containers together.  
 * Install the OVS .deb to the host `sudo apt-get install openvswitch-switch`
 * Change to /usr/bin directory `cd /usr/bin`
@@ -31,4 +31,15 @@ Now you can launch the cRPD instance.  The `-v` volumes need to match the ones y
 
 `docker run --rm --detach --name crpd-01 -h crpd-01 --privileged -v crpd01-config:/config -v crpd01-varlog:/var/log -m 2048MB --memory-swap=2048MB -it crpd:23.4R1-S1.5`
 
-`docker ps` will now output crpd-01 you just built
+`docker ps` will now output the crpd-01 contaier you just built
+
+## Configure OVS Bridge
+
+sudo ovs-vsctl add-br junos-lab-bridge
+sudo ovs-docker add-port junos-lab-bridge eth0 crpd-r1
+sudo ovs-docker add-port junos-lab-bridge eth1 crpd-r1
+sudo ovs-docker add-port junos-lab-bridge eth2 crpd-r1
+docker exec -d crpd-r1 ifconfig eth0 172.0.0.1/30
+docker exec -d crpd-r1 ifconfig eth1 172.0.0.5/30
+docker exec -d crpd-r1 ifconfig eth2 172.0.0.22/30
+docker exec -d crpd-r1 ifconfig lo0.0 10.255.255.1 netmask 255.255.255.255
